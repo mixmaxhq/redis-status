@@ -1,0 +1,28 @@
+{
+  "name": "redis-status",
+  "version": "1.0.0",
+  "description": "A node module that checks the health of a Redis server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mixmaxhq/redis-status.git"
+  },
+  "keywords": [
+    "redis",
+    "status",
+    "health",
+    "monitoring"
+  ],
+  "author": "Jeff Wear <jeff@mixmax.com> (https://mixmax.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mixmaxhq/redis-status/issues"
+  },
+  "homepage": "https://github.com/mixmaxhq/redis-status",
+  "dependencies": {
+    "redis": "^0.12.1"
+  }
+}
