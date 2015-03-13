@@ -14,7 +14,7 @@ var redis = require('redis');
  *        - If you use Redis as an LRU cache, set this to the value of the server's `maxmemory`
  *          configuration directive.
  *        - If you use Redis for pub/sub, set this (via observation) to the amount of memory used by
- * the server 's runtime operations (most likely something like 10MB).
+ *          the server 's runtime operations (most likely something like 10MB).
  *        - Leave this unset if your Redis deployment is autoscaled.
  *      Defaults to none.
  */
