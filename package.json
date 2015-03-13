@@ -1,6 +1,6 @@
 {
   "name": "redis-status",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A node module that checks the health of a Redis server.",
   "main": "index.js",
   "scripts": {
