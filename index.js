@@ -24,10 +24,16 @@ function RedisStatus(config) {
   }
 
   this._name = config.name;
-  this._port = config.port;
-  this._host = config.host;
-  this._password = config.password;
   this._memoryThreshold = config.memoryThreshold;
+
+  this._client = redis.createClient(config.port, config.host, {
+    auth_pass: config.password
+  }).on('error', function() {
+    // If Redis is not responsive, `node_redis` will emit an error on the next turn of the event
+    // loop. If we don't provide an error handler, that error will bring down the process. Providing
+    // an error handler will cause `node_redis` to begin attempting to reconnect--but the ping below
+    // will force the matter.
+  });
 }
 
 /**
@@ -42,18 +48,9 @@ function RedisStatus(config) {
  *    server is healthy, or a string describing the reason that the server is unhealthy.
  */
 RedisStatus.prototype.checkStatus = function(callback) {
-  var redisClient = redis.createClient(this._port, this._host, {
-    auth_pass: this._password
-  }).on('error', function() {
-    // If Redis is not responsive, `node_redis` will emit an error on the next turn of the event
-    // loop. If we don't provide an error handler, that error will bring down the process. Providing
-    // an error handler will cause `node_redis` to begin attempting to reconnect--but the ping below
-    // will force the matter.
-  });
-
   // Ensure that our Redis instance is responsive.
   var self = this;
-  redisClient.ping(function(err, pong) {
+  this._client.ping(function(err, pong) {
     if (err || (pong !== 'PONG')) {
       callback(self._name + ' Redis instance is not responsive.');
       return;
@@ -62,7 +59,7 @@ RedisStatus.prototype.checkStatus = function(callback) {
     if (!self._memoryThreshold) {
       callback(); // Success.
     } else {
-      redisClient.info('memory', function(err, info) {
+      self._client.info('memory', function(err, info) {
         if (err) {
           callback(self._name + ' Redis instance is not responsive.');
           return;
