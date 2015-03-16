@@ -51,20 +51,25 @@ RedisStatus.prototype.checkStatus = function(callback) {
     // will force the matter.
   });
 
+  var closingCallback = function() {
+    redisClient.quit();
+    callback.apply(null, arguments);
+  };
+
   // Ensure that our Redis instance is responsive.
   var self = this;
   redisClient.ping(function(err, pong) {
     if (err || (pong !== 'PONG')) {
-      callback(self._name + ' Redis instance is not responsive.');
+      closingCallback(self._name + ' Redis instance is not responsive.');
       return;
     }
 
     if (!self._memoryThreshold) {
-      callback(); // Success.
+      closingCallback(); // Success.
     } else {
       redisClient.info('memory', function(err, info) {
         if (err) {
-          callback(self._name + ' Redis instance is not responsive.');
+          closingCallback(self._name + ' Redis instance is not responsive.');
           return;
         }
 
@@ -72,9 +77,9 @@ RedisStatus.prototype.checkStatus = function(callback) {
         // 'used_memory:1086352' -> ['used_memory', '1086352'] -> 1086352
         var usedMemory = parseInt(info.split('\r\n')[1].split(':')[1]);
         if (usedMemory > self._memoryThreshold) {
-          callback(self._name + ' Redis instance is using abnormally high memory.');
+          closingCallback(self._name + ' Redis instance is using abnormally high memory.');
         } else {
-          callback(); // Success.
+          closingCallback(); // Success.
         }
       });
     }
