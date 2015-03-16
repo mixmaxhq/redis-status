@@ -39,4 +39,7 @@ We welcome pull requests! Please lint your code.
 
 ## Release History
 
-* 1.0.0 Initial release
+* 1.0.3 Connect to Redis only to check the status and then disconnect.
+* 1.0.2 Keep a persistent connection to Redis.
+* 1.0.1 Fix typo and clean up documentation.
+* 1.0.0 Initial release.
