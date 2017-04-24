@@ -5,7 +5,11 @@ service's "health" route.
 
 ## Installation
 
-```js
+```sh
+yarn add redis-status
+```
+or
+```sh
 npm install redis-status --save
 ```
 
