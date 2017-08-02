@@ -4,7 +4,8 @@
   "description": "A node module that checks the health of a Redis server.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,13 @@
   "homepage": "https://github.com/mixmaxhq/redis-status",
   "dependencies": {
     "redis": "^0.12.1"
-  }
+  },
+  "devDependencies": {
+    "eslint": ">=3",
+    "eslint-config-mixmax": "^0.6.0",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }
